@@ -12,10 +12,6 @@ const AuthScreen = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleNavigation = () => {
-    navigation.replace("LandingScreen");
-  };
-
   const isValidEmail = (email) => {
     return email.includes('@') && email.includes('.');
   };
@@ -33,8 +29,9 @@ const AuthScreen = () => {
       Alert.alert('Error', 'Password must be at least 6 characters');
       return;
     }
-
-    handleNavigation();
+    else{
+      navigation.replace("LandingScreen");
+    }
   };
 
   const handleSignup = () => {
@@ -54,8 +51,9 @@ const AuthScreen = () => {
       Alert.alert('Error', 'Password must be at least 6 characters');
       return;
     }
-
-    handleNavigation();
+    else{
+      navigation.replace("LandingScreen");
+    }
   };
 
   return (
@@ -101,6 +99,22 @@ const AuthScreen = () => {
           <TouchableOpacity style={styles.button} onPress={handleLogin}>
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
+
+          <View style={styles.dividerContainer}>
+            <View style={styles.line} />
+            <Text style={styles.orText}>OR</Text>
+            <View style={styles.line} />
+          </View>
+
+          <View style={styles.rowButtons}>
+            <TouchableOpacity style={styles.altButton}>
+              <Text style={styles.buttontext}>Facebook</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.altButton1}>
+              <Text style={styles.buttontext1}>Google</Text>
+            </TouchableOpacity>
+          </View>
+
         </>
       ) : (
         <>
@@ -216,6 +230,55 @@ const styles = StyleSheet.create({
     color: 'maroon',
     fontWeight: 'bold',
     fontSize: 13,
+  },
+  dividerContainer: {
+    marginTop:35,
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '85%',
+    marginVertical: 15,
+  },
+  line: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#ccc',
+  },
+  orText: {
+    marginHorizontal: 10,
+    color: 'black',
+    fontWeight: 'bold',
+  },
+  rowButtons: {
+    marginTop:10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '85%',
+  },
+  altButton: {
+    flex: 1,
+    backgroundColor: 'blue',
+    paddingVertical: 12,
+    alignItems: 'center',
+    borderRadius: 8,
+    marginHorizontal: 5,
+  },
+  altButton1: {
+    flex: 1,
+    backgroundColor: '#ccc',
+    paddingVertical: 12,
+    alignItems: 'center',
+    borderRadius: 8,
+    marginHorizontal: 5,
+  },
+  buttontext: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  buttontext1: {
+    color: 'black',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   button: {
     width: '85%',

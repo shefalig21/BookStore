@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
 import Header from '../Components/Header';
 import BookItem from '../Components/BookItem';
 import BookModal from '../Components/BookModal';
@@ -51,14 +50,14 @@ const LandingScreen = ({ navigation }) => {
         data={books}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => openModal(item)}>
-            <BookItem
-              book={item}
-              addToBag={addToBag}
-              addToWishlist={addToWishlist}
-              isInBag={bagItems.some((bagItem) => bagItem.id === item.id)}
-            />
-          </TouchableOpacity>
+          <BookItem
+            book={item}
+            addToBag={addToBag}
+            addToWishlist={addToWishlist}
+            isInBag={bagItems.some((bagItem) => bagItem.id === item.id)}
+            isInWishlist={wishlistItems.some((wishlistItem) => wishlistItem.id === item.id)}
+            onPress={() => openModal(item)}
+          />
         )}
         contentContainerStyle={styles.listContainer}
       />
@@ -69,13 +68,9 @@ const LandingScreen = ({ navigation }) => {
         onClose={closeModal}
       />
 
-      <View style={{ marginTop:30 }}>
-
-      <Footer/>
-
+      <View style={{ marginTop: 30 }}>
+        <Footer />
       </View>
-
-
     </View>
   );
 };
@@ -100,19 +95,5 @@ const styles = StyleSheet.create({
 });
 
 export default LandingScreen;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

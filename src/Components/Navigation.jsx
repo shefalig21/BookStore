@@ -9,6 +9,7 @@ import SearchScreen from '../Screens/SearchScreen'
 import AuthScreen from '../Auth/AuthScreen'
 import OrderScreen from '../Screens/OrderScreen'
 
+
 const Stack = createStackNavigator();
 
 const Navigation = () => {

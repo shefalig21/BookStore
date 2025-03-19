@@ -2,10 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const BookItem = ({ book, addToBag, addToWishlist, isInBag, isInWishlist }) => {
+const BookItem = ({ book, addToBag, addToWishlist, isInBag, isInWishlist, onPress }) => {
   return (
-
-    <View style={styles.bookContainer}>
+    <TouchableOpacity onPress={onPress} style={styles.bookContainer}>
       <View style={styles.imageContainer}>
         <Image source={book.image} style={styles.bookImage} />
       </View>
@@ -18,7 +17,7 @@ const BookItem = ({ book, addToBag, addToWishlist, isInBag, isInWishlist }) => {
         </View>
         <View style={styles.buttonActions}>
           {!isInBag && (
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.favIcon}
               onPress={() => addToWishlist(book)}
             >
@@ -34,8 +33,7 @@ const BookItem = ({ book, addToBag, addToWishlist, isInBag, isInWishlist }) => {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
-
+    </TouchableOpacity>
   );
 };
 
@@ -52,7 +50,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   imageContainer: {
-    backgroundColor: '#F5F5F5',  
+    backgroundColor: '#F5F5F5',
     padding: 10,
     alignItems: 'center',
   },
@@ -94,7 +92,7 @@ const styles = StyleSheet.create({
   },
   buttonActions: {
     flexDirection: 'row',
-    justifyContent: 'space-between', 
+    justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 10,
   },
@@ -115,25 +113,16 @@ const styles = StyleSheet.create({
   },
   addedToBag: {
     backgroundColor: '#C09090',
-    borderColor:'maroon',
-    borderWidth:1,
+    borderColor: 'maroon',
+    borderWidth: 1,
   },
   addToBagText: {
     color: '#fff',
     fontSize: 13,
   },
-  container: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    paddingHorizontal: 10,
-  },
 });
 
 export default BookItem;
-
-
-
 
 
 
