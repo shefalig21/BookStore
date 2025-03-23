@@ -1,5 +1,5 @@
-import React,{useState} from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, ScrollView } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Header from '../Components/Header';
 import BookItem from '../Components/BookItem';
@@ -9,44 +9,42 @@ const Wishlist = ({ navigation }) => {
   const { wishlistItems } = useSelector((state) => state.wishlist);
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Header navigation={navigation} />
+    <View style={styles.container}>
+      <Header navigation={navigation} />
 
-        <View style={styles.innerContainer}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Icon name="arrow-back" size={25} color="black" style={styles.backIcon} />
-          </TouchableOpacity>
-          <Text style={styles.booksText}>Wishlist</Text>
-        </View>
-
-        <FlatList
-          data={wishlistItems}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <TouchableOpacity>
-              <BookItem book={item} />
-            </TouchableOpacity>
-          )}
-          contentContainerStyle={styles.listContainer}
-        />
+      <View style={styles.innerContainer}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon name="arrow-back" size={25} color="black" style={styles.backIcon} />
+        </TouchableOpacity>
+        <Text style={styles.booksText}>Wishlist</Text>
       </View>
-    </ScrollView>
+
+      <FlatList
+        data={wishlistItems}
+        keyExtractor={(item) => item.id.toString()}
+        numColumns={2}
+        renderItem={({ item }) => (
+          <View style={styles.bookWrapper}>
+            <BookItem book={item} />
+          </View>
+        )}
+        contentContainerStyle={styles.listContainer}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
+  container: {
     flex: 1,
   },
   innerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    paddingHorizontal:13,
+    paddingHorizontal: 13,
     width: '100%',
-    marginRight: '7%',
-    marginTop:10,
+    marginTop: 10,
   },
   backIcon: {
     marginRight: 5,
@@ -59,32 +57,15 @@ const styles = StyleSheet.create({
     marginTop: 3,
   },
   listContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    paddingHorizontal: 19,
-    paddingTop: 13,
+    // paddingHorizontal: 4,
+    paddingTop: 10,
+  },
+  bookWrapper: {
+    width: '43%',
+    marginBottom: 2,
+    marginHorizontal: '3%', 
   },
 });
 
 export default Wishlist;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

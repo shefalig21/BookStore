@@ -82,29 +82,14 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
   listContainer: {
-    paddingHorizontal: 8,
+    paddingHorizontal: 16,
     paddingTop: 8,
   },
   bookContainer: {
-    flex: 1,
-    padding: 10,
+    width: '45%',
+    marginBottom: 2,
+    marginHorizontal: '3%',
   },
 });
 
 export default SearchScreen;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

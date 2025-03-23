@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   bookImage: {
     width: 92,
-    height: 110,
+    height: 115,
     resizeMode: 'cover',
     borderRadius: 2,
   },

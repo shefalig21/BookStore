@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import Header from '../Components/Header';
 import BookItem from '../Components/BookItem';
@@ -9,10 +9,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addToBag } from '../Redux/Actions/bagActions';
 import { addToWishlist } from '../Redux/Actions/wishlistActions';
 
-
 const LandingScreen = ({ navigation }) => {
-  const [selectedBook, setSelectedBook] =useState(null);
-  const [modalVisible, setModalVisible] =useState(false);
+  const [selectedBook, setSelectedBook] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch();
   const { bagItems, wishlistItems } = useSelector((state) => ({
     bagItems: state.bag.bagItems,
@@ -44,20 +43,28 @@ const LandingScreen = ({ navigation }) => {
       <FlatList
         data={books}
         keyExtractor={(item) => item.id.toString()}
+        numColumns={2}
+        columnWrapperStyle={styles.row}
         renderItem={({ item }) => (
-          <BookItem
-            book={item}
-            addToBag={handleAddToBag}
-            addToWishlist={handleAddToWishlist}
-            isInBag={bagItems.some((bagItem) => bagItem.id === item.id)}
-            isInWishlist={wishlistItems.some((wishlistItem) => wishlistItem.id === item.id)}
-            onPress={() => openModal(item)}
-          />
+          <View style={styles.bookWrapper}>
+            <BookItem
+              book={item}
+              addToBag={handleAddToBag}
+              addToWishlist={handleAddToWishlist}
+              isInBag={bagItems.some((bagItem) => bagItem.id === item.id)}
+              isInWishlist={wishlistItems.some((wishlistItem) => wishlistItem.id === item.id)}
+              onPress={() => openModal(item)}
+            />
+          </View>
         )}
         contentContainerStyle={styles.listContainer}
       />
 
-      <BookModal visible={modalVisible} book={selectedBook} onClose={closeModal} />
+      <BookModal 
+      visible={modalVisible} 
+      book={selectedBook} 
+      onClose={closeModal} 
+      />
 
       <View style={{ marginTop: 30 }}>
         <Footer />
@@ -77,27 +84,21 @@ const styles = StyleSheet.create({
     marginTop: 14,
   },
   listContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    paddingHorizontal: 10,
+    paddingTop: 5,
+  },
+  row: {
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingTop: 2,
+    marginBottom: 2,
+  },
+  bookWrapper: {
+    flex: 1,
+    marginHorizontal: 11,
+    alignItems: 'center',
   },
 });
 
 export default LandingScreen;
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
