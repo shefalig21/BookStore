@@ -1,13 +1,13 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import { createStackNavigator } from '@react-navigation/stack'
-import { NavigationContainer } from '@react-navigation/native'
-import LandingScreen from '../Screens/LandingScreen'
-import Wishlist from '../Screens/WishList'
-import MyBag from '../Screens/MyBag'
-import SearchScreen from '../Screens/SearchScreen'
-import AuthScreen from '../Auth/AuthScreen'
-import OrderScreen from '../Screens/OrderScreen'
+import { View, Text } from 'react-native';
+import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import LandingScreen from '../Screens/LandingScreen';
+import Wishlist from '../Screens/WishList';
+import MyBag from '../Screens/MyBag';
+import SearchScreen from '../Screens/SearchScreen';
+import AuthScreen from '../Auth/AuthScreen';
+import OrderScreen from '../Screens/OrderScreen';
 
 
 const Stack = createStackNavigator();
@@ -52,6 +52,24 @@ const Navigation = () => {
 }
 
 export default Navigation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

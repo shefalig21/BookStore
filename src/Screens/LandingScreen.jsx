@@ -1,35 +1,30 @@
-import React, { useState } from 'react';
+import React,{useState} from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import Header from '../Components/Header';
 import BookItem from '../Components/BookItem';
 import BookModal from '../Components/BookModal';
 import books from '../Data/booksData';
 import Footer from '../Components/Footer';
+import { useSelector, useDispatch } from 'react-redux';
+import { addToBag } from '../Redux/Actions/bagActions';
+import { addToWishlist } from '../Redux/Actions/wishlistActions';
+
 
 const LandingScreen = ({ navigation }) => {
-  const [selectedBook, setSelectedBook] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [bagItems, setBagItems] = useState([]);
-  const [wishlistItems, setWishlistItems] = useState([]);
+  const [selectedBook, setSelectedBook] =useState(null);
+  const [modalVisible, setModalVisible] =useState(false);
+  const dispatch = useDispatch();
+  const { bagItems, wishlistItems } = useSelector((state) => ({
+    bagItems: state.bag.bagItems,
+    wishlistItems: state.wishlist.wishlistItems,
+  }));
 
-  const addToBag = (book) => {
-    setBagItems((prevItems) => {
-      const itemExists = prevItems.find((item) => item.id === book.id);
-      if (itemExists) {
-        return prevItems;
-      }
-      return [...prevItems, { ...book, quantity: 1 }];
-    });
+  const handleAddToBag = (book) => {
+    dispatch(addToBag(book));
   };
 
-  const addToWishlist = (book) => {
-    setWishlistItems((prevItems) => {
-      const itemExists = prevItems.find((item) => item.id === book.id);
-      if (itemExists) {
-        return prevItems;
-      }
-      return [...prevItems, book];
-    });
+  const handleAddToWishlist = (book) => {
+    dispatch(addToWishlist(book));
   };
 
   const openModal = (book) => {
@@ -43,7 +38,7 @@ const LandingScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Header navigation={navigation} bagItems={bagItems} wishlistItems={wishlistItems ?? []} />
+      <Header navigation={navigation} bagItems={bagItems} wishlistItems={wishlistItems} />
       <Text style={styles.booksText}>Books</Text>
 
       <FlatList
@@ -52,8 +47,8 @@ const LandingScreen = ({ navigation }) => {
         renderItem={({ item }) => (
           <BookItem
             book={item}
-            addToBag={addToBag}
-            addToWishlist={addToWishlist}
+            addToBag={handleAddToBag}
+            addToWishlist={handleAddToWishlist}
             isInBag={bagItems.some((bagItem) => bagItem.id === item.id)}
             isInWishlist={wishlistItems.some((wishlistItem) => wishlistItem.id === item.id)}
             onPress={() => openModal(item)}
@@ -62,11 +57,7 @@ const LandingScreen = ({ navigation }) => {
         contentContainerStyle={styles.listContainer}
       />
 
-      <BookModal
-        visible={modalVisible}
-        book={selectedBook}
-        onClose={closeModal}
-      />
+      <BookModal visible={modalVisible} book={selectedBook} onClose={closeModal} />
 
       <View style={{ marginTop: 30 }}>
         <Footer />
@@ -95,5 +86,20 @@ const styles = StyleSheet.create({
 });
 
 export default LandingScreen;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

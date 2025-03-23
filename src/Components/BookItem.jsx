@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     overflow: 'hidden',
     width: '100%',
-    marginRight: '10%',
+    marginRight: '7.5%',
     marginTop: 20,
   },
   imageContainer: {
@@ -123,6 +123,16 @@ const styles = StyleSheet.create({
 });
 
 export default BookItem;
+
+
+
+
+
+
+
+
+
+
 
 
 

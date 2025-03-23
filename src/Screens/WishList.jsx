@@ -1,50 +1,49 @@
-
-import React from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity,ScrollView } from 'react-native';
+import React,{useState} from 'react';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Header from '../Components/Header';
 import BookItem from '../Components/BookItem';
+import { useSelector } from 'react-redux';
 
-const Wishlist = ({ route, navigation }) => {
-  const wishlistItems = route.params?.wishlistItems ?? [];
+const Wishlist = ({ navigation }) => {
+  const { wishlistItems } = useSelector((state) => state.wishlist);
 
   return (
     <ScrollView>
+      <View style={styles.container}>
+        <Header navigation={navigation} />
 
-    <View style={styles.container}>
-      <Header navigation={navigation} /> 
-
-      <View style={styles.innerContainer}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-back" size={25} color="black" style={styles.backIcon} />
-        </TouchableOpacity>
-        <Text style={styles.booksText}>Wishlist</Text>
-      </View>
-
-      <FlatList
-        data={wishlistItems}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <TouchableOpacity>
-            <BookItem book={item} />
+        <View style={styles.innerContainer}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Icon name="arrow-back" size={25} color="black" style={styles.backIcon} />
           </TouchableOpacity>
-        )}
-        contentContainerStyle={styles.listContainer}
-      />
-    </View>
-     </ScrollView>
+          <Text style={styles.booksText}>Wishlist</Text>
+        </View>
+
+        <FlatList
+          data={wishlistItems}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <TouchableOpacity>
+              <BookItem book={item} />
+            </TouchableOpacity>
+          )}
+          contentContainerStyle={styles.listContainer}
+        />
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+    container: {
     flex: 1,
   },
   innerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    paddingHorizontal:20,
+    paddingHorizontal:13,
     width: '100%',
     marginRight: '7%',
     marginTop:10,
@@ -63,49 +62,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    paddingHorizontal: 10,
-    paddingTop: 2,
+    paddingHorizontal: 19,
+    paddingTop: 13,
   },
 });
 
 export default Wishlist;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
