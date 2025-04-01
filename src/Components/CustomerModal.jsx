@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Modal, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Modal, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const CustomerModal = ({ modalVisible, setModalVisible }) => {
@@ -11,6 +12,23 @@ const CustomerModal = ({ modalVisible, setModalVisible }) => {
   const [city, setCity] = useState('');
   const [landmark, setLandMark] = useState('');
   const [type, setType] = useState('Home');
+
+  const saveCustomerDetails = async () => {
+    try {
+      const customerData = {
+         name,phone,pincode,locality,Address,city,landmark,type
+      };
+      
+      await AsyncStorage.setItem('customerDetails', JSON.stringify(customerData));
+      Alert.alert('Success', 'Customer details saved successfully!');
+
+      setModalVisible(false);
+
+    } catch (error) {
+      console.error('Error saving data:', error);
+      Alert.alert('Error', 'Failed to save customer details.');
+    }
+  };
 
   return (
     <Modal
@@ -88,7 +106,7 @@ const CustomerModal = ({ modalVisible, setModalVisible }) => {
               ))}
             </View>
 
-            <TouchableOpacity style={styles.addButton} onPress={() => setModalVisible(false)}>
+            <TouchableOpacity style={styles.addButton} onPress={saveCustomerDetails}>
               <Text style={styles.addButtonText}>ADD</Text>
             </TouchableOpacity>
           </ScrollView>
@@ -185,13 +203,3 @@ const styles = StyleSheet.create({
 });
 
 export default CustomerModal;
-
-
-
-
-
-
-
-
-
-

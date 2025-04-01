@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native';
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
@@ -6,19 +5,24 @@ import LandingScreen from '../Screens/LandingScreen';
 import Wishlist from '../Screens/WishList';
 import MyBag from '../Screens/MyBag';
 import SearchScreen from '../Screens/SearchScreen';
-import AuthScreen from '../Auth/AuthScreen';
 import OrderScreen from '../Screens/OrderScreen';
-
+import LoginScreen from '../Auth/LoginScreen';
+import SignUpScreen from '../Auth/SignUpScreen';
 
 const Stack = createStackNavigator();
 
 const Navigation = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="AuthScreen">
-      <Stack.Screen
-          name="AuthScreen"
-          component={AuthScreen}
+      <Stack.Navigator initialRouteName="LoginScreen">
+        <Stack.Screen
+          name="LoginScreen"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="SignUpScreen"
+          component={SignUpScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
