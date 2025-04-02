@@ -1,167 +1,121 @@
-// import React, { useState } from 'react';
-// import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
-// import { useNavigation } from '@react-navigation/native';
-
-// const LoginScreen = () => {
-//   const navigation = useNavigation();
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-//   const [showPassword, setShowPassword] = useState(false);
-
-//   const isValidEmail = (email) => {
-//         return email.includes('@') && email.includes('.');
-//       };
-
-//   const handleLogin = () => {
-//     if (!email || !password) {
-//       Alert.alert('Error', 'All fields must be filled');
-//       return;
-//     }
-//     if (!isValidEmail(email)) {
-//       Alert.alert('Error', 'Invalid email');
-//       return;
-//     }
-//     if (password.length < 6) {
-//       Alert.alert('Error', 'Password must be at least 6 characters');
-//       return;
-//     }
-//     navigation.replace("LandingScreen");
-//   };
-
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.title}>Online Book Shopping</Text>
-//       <Image source={require('../assets/images/Photo2.jpg')} style={styles.image} />
-
-//       <TextInput 
-//       style={styles.input} 
-//       placeholder="Email" 
-//       value={email} 
-//       onChangeText={setEmail} 
-//       />
-
-//       <TextInput 
-//       style={styles.input} 
-//       placeholder="Password" 
-//       value={password} 
-//       onChangeText={setPassword} 
-//       secureTextEntry={!showPassword} 
-//       />
-
-//       <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-//         <Text style={styles.showPasswordText}>{showPassword ? 'Hide' : 'Show'} Password</Text>
-//       </TouchableOpacity>
-
-//       <TouchableOpacity style={styles.button} onPress={handleLogin}>
-//         <Text style={styles.buttonText}>Login</Text>
-//       </TouchableOpacity>
-
-//       <TouchableOpacity onPress={() => navigation.navigate('SignupScreen')}>
-//         <Text style={styles.toggleText}>Don't have an account? Signup</Text>
-//       </TouchableOpacity>
-
-//     </View>
-//   );
-// };
-
-// export default LoginScreen;
-
-
-
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+
+GoogleSignin.configure({
+	webClientId: "447573878083-rfn0das4gj84r8h9hgj05du663ephlot.apps.googleusercontent.com",
+  offlineAccess: true,
+});
 
 const LoginScreen = () => {
-  const navigation = useNavigation();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+	const navigation = useNavigation();
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [showPassword, setShowPassword] = useState(false);
+	const [error, setError] = useState('');
+	const [loading, setLoading] = useState(false);
 
-  const isValidEmail = (email) => {
-    return email.includes('@') && email.includes('.');
-  };
+	const isValidEmail = (email) => {
+		return email.includes('@') && email.includes('.');
+	};
 
-  const handleLogin = () => {
-    if (!email || !password) {
-      Alert.alert('Error', 'All fields must be filled');
-      return;
-    }
-    if (!isValidEmail(email)) {
-      Alert.alert('Error', 'Invalid email');
-      return;
-    }
-    if (password.length < 6) {
-      Alert.alert('Error', 'Password must be at least 6 characters');
-      return;
-    }
-    else {
-      navigation.replace("LandingScreen");
-    }
-  };
+	const handleLogin = () => {
+		if (!email || !password) {
+			Alert.alert('Error', 'All fields must be filled');
+			return;
+		}
+		if (!isValidEmail(email)) {
+			Alert.alert('Error', 'Invalid email');
+			return;
+		}
+		if (password.length < 6) {
+			Alert.alert('Error', 'Password must be at least 6 characters');
+			return;
+		}
+		else {
+			navigation.replace("LandingScreen");
+		}
+	};
 
-  const navigateToSignUp = () => {
-    navigation.navigate("SignUpScreen");
-  };
+	const handleGoogleLogin = async () => {
+		try {
+			await GoogleSignin.hasPlayServices();
+			await GoogleSignin.signOut();
+			const user = await GoogleSignin.signIn();
+			console.log(user);
+			if (!user) {
+				Alert.alert('Error', 'Google Sign-In failed');
+				return;
+			}
+			navigation.navigate('LandingScreen');
+		} catch (error) {
+			console.log('Google Sign-In Error:', error);
+			Alert.alert('Error', error.message || 'Google Sign-In failed');
+		}
+	};
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Online Book Shopping</Text>
+	const navigateToSignUp = () => {
+		navigation.navigate("SignUpScreen");
+	};
 
-      <Image source={require('../assets/images/Photo2.jpg')} style={styles.image} />
+	return (
+		<View style={styles.container}>
+			<Text style={styles.title}>Online Book Shopping</Text>
 
-      <View style={styles.toggleContainer}>
-        <TouchableOpacity>
-          <Text style={[styles.toggleText, styles.activeToggleText]}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={navigateToSignUp}>
-          <Text style={styles.toggleText}>Signup</Text>
-        </TouchableOpacity>
-      </View>
+			<Image source={require('../assets/images/Photo2.jpg')} style={styles.image} />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry={!showPassword}
-      />
+			<View style={styles.toggleContainer}>
+				<TouchableOpacity>
+					<Text style={[styles.toggleText, styles.activeToggleText]}>Login</Text>
+				</TouchableOpacity>
+				<TouchableOpacity onPress={navigateToSignUp}>
+					<Text style={styles.toggleText}>Signup</Text>
+				</TouchableOpacity>
+			</View>
 
-      <View style={styles.showPasswordForgotContainer}>
-        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-          <Text style={styles.showPasswordText}>{showPassword ? 'Hide' : 'Show'} Password</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.forgotPasswordText}>Forgot password?</Text>
-        </TouchableOpacity>
-      </View>
+			<TextInput 
+      style={styles.input} 
+      placeholder="Email" 
+      value={email} 
+      onChangeText={setEmail} />
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
+			<TextInput 
+      style={styles.input} 
+      placeholder="Password" 
+      value={password} 
+      onChangeText={setPassword} 
+      secureTextEntry={!showPassword} />
 
-      <View style={styles.dividerContainer}>
-        <View style={styles.line} />
-        <Text style={styles.orText}>OR</Text>
-        <View style={styles.line} />
-      </View>
+			<View style={styles.showPasswordForgotContainer}>
+				<TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+					<Text style={styles.showPasswordText}>{showPassword ? 'Hide' : 'Show'} Password</Text>
+				</TouchableOpacity>
+				<TouchableOpacity>
+					<Text style={styles.forgotPasswordText}>Forgot password?</Text>
+				</TouchableOpacity>
+			</View>
 
-      <View style={styles.rowButtons}>
-        <TouchableOpacity style={styles.altButton}>
-          <Text style={styles.buttontext}>Facebook</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.altButton1}>
-          <Text style={styles.buttontext1}>Google</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
+			<TouchableOpacity style={styles.button} onPress={handleLogin}>
+				<Text style={styles.buttonText}>Login</Text>
+			</TouchableOpacity>
+
+			<View style={styles.dividerContainer}>
+				<View style={styles.line} />
+				<Text style={styles.orText}>OR</Text>
+				<View style={styles.line} />
+			</View>
+
+			<View style={styles.rowButtons}>
+				<TouchableOpacity style={styles.altButton}>
+					<Text style={styles.buttontext}>Facebook</Text>
+				</TouchableOpacity>
+				<Pressable style={styles.altButton1} onPress={handleGoogleLogin}>
+					<Text style={styles.buttontext1}>Google</Text>
+				</Pressable>
+			</View>
+		</View>
+	);
 };
 
 const styles = StyleSheet.create({
@@ -295,3 +249,24 @@ const styles = StyleSheet.create({
 });
 
 export default LoginScreen;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
